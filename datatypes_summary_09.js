@@ -55,6 +55,26 @@ let myObj = {
 let myFunction = function () {
     console.log("Hello World")
 }
-console.log(typeof id)
+// console.log(typeof id)
 
 // https://262.ecma-international.org/5.1/#sec-11.4.3
+
+
+/* 
+Prmitive DataTypes Stack Memory returns Copy Value of orignal value 
+Non-Primitive Heap Memory return refrence value of orignal value
+*/
+
+// let userOne = 'abhishek'
+// let userTwo = 'anurag'
+
+let userOne = {
+    name: "abhishek"
+}
+
+let userTwo = userOne
+
+userTwo.name = "jay"
+
+console.log(userOne)
+console.log(userTwo)

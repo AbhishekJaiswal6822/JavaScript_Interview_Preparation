@@ -204,3 +204,12 @@ console.log(checkAccess(user));                         // Success
 console.log(checkAccess({ isLoggedIn: false }));        // Not logged in
 console.log(checkAccess({ isLoggedIn: true, role: "user" })); // Not admin
 console.log(checkAccess({}));                           // Empty object safety
+
+
+// Arrow Function 
+// ()=>{}
+
+// () => console.log(first) // implicit arrow function
+//  const add = () => ({})
+
+    // iife function () ();

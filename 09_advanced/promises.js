@@ -1,6 +1,7 @@
 // promise is an operation that will eventually gets performed in future
 // .then() block only receives and has access to whatever value was explicitly returned by the .then() block directly above it.
 
+//Approach 1: Named Assignment (promiseOne)
 const promiseOne = new Promise(function(resolve,reject){
     //Do an async task 
     // DB calls, cryptography, network
@@ -14,6 +15,12 @@ promiseOne.then(function(){
     console.log("Promised Comsumed")
 })
 
+
+
+
+
+
+//Approach 2: Direct Anonymous Chaining
 new Promise(function(resolve,reject){
     setTimeout(function(){
         console.log("Async task 2 ")
@@ -77,7 +84,7 @@ async function consumeProniseFive(){
     }
 }
 
-consumeProniseFive()
+// consumeProniseFive()
 
 /*
 so suppose we are getting response from promise resolve and reject if rejectpart is coming to async await 

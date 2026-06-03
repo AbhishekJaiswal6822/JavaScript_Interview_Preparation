@@ -5,8 +5,9 @@ const myArr = []
 
 // Elements
 // SMI (small integer)
-// Packed Elements
-// Double (floats, String , function)
+// Double (floats, NaN , Infinity)
+// Packed Elements (String, Fn)
+
 
 // Holey array ==> is an array that has missing or empty elements 
 // Continius array ==> it is an array that dont have an missing or empty elements

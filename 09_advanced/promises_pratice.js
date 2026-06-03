@@ -34,12 +34,12 @@
 //     try {
 //         // 3. 🔥 FIX 1: Add await here to wait for the fetch Promise to resolve
 //         const response = await fetch(requestUrl); 
-        
+
 //         // 4. FIX 2: Await the parsing promise completely
 //         const data1 = await response.json(); 
-        
+
 //         console.log(data1); // Effectively logs the post object!
-        
+
 //     } catch (error) {
 //         console.log("Error:", error);
 //     }
@@ -59,7 +59,7 @@
 // name()
 
 // async function  destructuring () {
-    
+
 //     const url = ("https://api.coindesk.com/v1/bpi/currentprice.json")
 
 //     try {
@@ -77,13 +77,13 @@
 // destructuring()
 
 
-    // Step 1: Wrap in a function that returns the Promise
+// Step 1: Wrap in a function that returns the Promise
 // function validatePassword(password) {
 //     return new Promise(function (resolve, reject) {
-        
+
 //         // Step 2: Use a clean function callback inside setTimeout
 //         setTimeout(function () {
-            
+
 //             // Step 3: Check string length (> 6 characters)
 //             if (password.length > 6) {
 //                 // Step 4: 🔥 Pass data up to global memory via resolve()
@@ -92,7 +92,7 @@
 //                 // Step 5: 🔥 Trip the catch block using reject() with an Error object
 //                 reject(new Error("Password too short!")); 
 //             }
-            
+
 //         }, 1200); // 1.2 seconds delay
 //     });
 // }
@@ -107,7 +107,7 @@
 //         // Test Case B: This will fail and instantly drop execution to the catch block
 //         const status2 = await validatePassword("123");
 //         console.log(status2); // This line will never execute
-        
+
 //     } catch (error) {
 //         console.log("Failure Path Caught:", error.message);
 //     }
@@ -135,8 +135,8 @@
 //         console.log("An error occurred during pipeline execution:", error.message);
 //     });
 
-    /*
-    🔴 Challenge 3: Hard (The Race Against Time)
+/*
+🔴 Challenge 3: Hard (The Race Against Time)
 The Concept: Simulating an operational timeout. This is exactly how production systems prevent processes from hanging forever if a heavy operation gets stuck.
 
 The Task: Create a mechanism where a slow local calculation is canceled if it takes too long.
@@ -150,7 +150,7 @@ Create Promise B (The Watchdog): Uses a setTimeout set to 2 seconds, then reject
 Use Promise.race([PromiseA, PromiseB]) to execute both simultaneously.
 
 Log the result. Since the watchdog is faster (2 seconds) than the processing task (3 seconds), your terminal should hit your failure block instead of letting the application finish execution.
-    */
+*/
 
 // Step 1: Promise A (The slow asynchronous process)
 const processPromise = new Promise((resolve, reject) => {
@@ -174,6 +174,249 @@ Promise.race([processPromise, watchdogPromise])
     })
     .catch((error) => {
         // This block intercepts the faster failure condition
-        console.log(" Race Ended via Rejection!");
-        console.log(`Reason for failure: ${error.message}`);
+        // console.log(" Race Ended via Rejection!");
+        // console.log(`Reason for failure: ${error.message}`);
     });
+
+
+function fetchDatabaseRecord() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve({ id: 101, race: "Pune Half Marathon" })
+        }, 2000)
+    })
+}
+
+async function displayRaceDetails() {
+    try {
+        const record = await fetchDatabaseRecord()
+        console.log("Database Record Received successfully! 🟢");
+        console.log(`Race ID: ${record.id}`);
+        console.log(`Event Name: ${record.race}`);
+    } catch (error) {
+        console.log("Something went wrong:", error);
+    }
+}
+
+// displayRaceDetails()
+
+
+function verifyRunnerBIB() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve({ name: "Abhishek", status: "Checked In" })
+            reject("Access Denied: Invalid BIB Number! ❌")
+        }, 2000)
+    })
+}
+
+async function runGatekeeper() {
+    try {
+        const record = await verifyRunnerBIB()
+        console.log(record)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+// runGatekeeper()
+
+
+function verifyRunnerBIB(bibNumber) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            if (bibNumber === 11){
+                resolve({ name: "Abhishek", status: "Checked In" })
+            }else {
+                reject("Access Denied: Invalid BIB Number! ❌")
+            }
+        }, 2000)
+    })
+}
+
+async function runGatekeeper() {
+    try {
+
+        const record = await verifyRunnerBIB(77)
+       console.log("Success Layer:", record);
+
+    } catch (error) {
+        console.log("Gatekeeper Intercepted an Error 🚨 ->", error);
+    }
+}
+
+// runGatekeeper()
+
+
+// Promise task 2 
+function getUserId(){
+    return new Promise((resolve,reject)=>{
+        setTimeout(()=>{
+            resolve(101)
+        },1000)
+    })
+}
+
+function getDiscountTier(userId){
+    return new Promise((resolve,reject)=>{
+        setTimeout(()=>{
+           resolve ("Premium Runner Tier for User " + userId)
+        },1000)
+    })
+}
+
+async function processBilling() {
+   try {
+    const price =  await getUserId()
+
+   const result = await getDiscountTier(price)
+
+   console.log(result)
+   } catch (error) {
+    console.log("Error found")
+   }
+}
+
+// processBilling()
+
+// ==========================================
+// 📦 PRODUCER LAYER: Three completely independent data requests
+// ==========================================
+function fetchWeather() {
+    return new Promise((resolve) => {
+        setTimeout(() => resolve("Sunny ☀️"), 1000); // Takes 1.0 second
+    });
+}
+
+function fetchTrackStatus() {
+    return new Promise((resolve) => {
+        setTimeout(() => resolve("Dry and Clear 🛣️"), 1500); // Takes 1.5 seconds
+    });
+}
+
+function fetchSponsors() {
+    return new Promise((resolve) => {
+        setTimeout(() => resolve(["Brand A", "Brand B"]), 500); // Takes 0.5 seconds
+    });
+}
+
+// ==========================================
+// 🏎️ CONSUMER LAYER: Concurrent Parallel Execution
+// ==========================================
+async function prepareRaceDay() {
+    try {
+        console.log("⏱️ Total Time Elapsed tracking started...");
+        const startTime = Date.now();
+
+        console.log("🔄 Fetching dashboard components simultaneously...");
+
+        // Promise.all kicks off all three functions at the EXACT SAME MILLISECOND.
+        // We use array destructuring to grab the clean results directly.
+        const [weather, track, sponsors] = await Promise.all([
+            fetchWeather(),
+            fetchTrackStatus(),
+            fetchSponsors()
+        ]);
+
+        console.log("\n📊 --- MARATHON DASHBOARD READY ---");
+        console.log(`Current Weather: ${weather}`);
+        console.log(`Track Condition: ${track}`);
+        console.log(`Official Sponsors: ${sponsors.join(", ")}`);
+
+        const totalTime = (Date.now() - startTime) / 1000;
+        console.log(`\n⚡ Performance Metric: Operation finished in ${totalTime} seconds!`);
+
+    } catch (error) {
+        console.log("Dashboard aggregation failed:", error);
+    }
+}
+
+// Execute the parallel dashboard configuration
+// prepareRaceDay();
+
+
+function fetchWeather() {
+    return new Promise((resolve) => {
+        setTimeout(() => resolve("Sunny ☀️"), 1000); // Takes 1.0 second
+    });
+}
+
+function fetchTrackStatus() {
+    return new Promise((resolve) => {
+        setTimeout(() => resolve("Dry and Clear 🛣️"), 1500); // Takes 1.5 seconds
+    });
+}
+
+function fetchSponsors() {
+    return new Promise((resolve) => {
+        setTimeout(() => resolve(["Brand A", "Brand B"]), 500); // Takes 0.5 seconds
+    });
+}
+
+async function prepareRaceDay() {
+    try {
+        const records = await Promise.all([fetchWeather(),fetchTrackStatus(),fetchSponsors()])
+        console.log(records)
+        // console.log(weather)
+        // console.log(track)
+        // console.log(sponsor)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+prepareRaceDay()
+
+const taskA = new Promise(res => setTimeout(() => res("Data A"), 1000));
+const taskB = new Promise((res, reject) => setTimeout(() => reject("Network Failed! ❌"), 500));
+const taskC = new Promise(res => setTimeout(() => res("Data C"), 2000));
+
+async function runDashboard() {
+    try {
+        // Firing all three concurrently...
+        const results = await Promise.all([taskA, taskB, taskC]);
+        console.log(results);
+    } catch (error) {
+        // At exactly 0.5 seconds, taskB rejects. 
+        // JavaScript instantly breaks the pipeline and drops down here!
+        console.log("Promise.all aborted because of:", error);
+    }
+}
+runDashboard();
+
+async function runSafeDashboard() {
+    // This will NOT crash if taskB fails!
+    const statuses = await Promise.allSettled([taskA, taskB, taskC]);
+    console.log(statuses);
+}
+// runSafeDashboard();
+
+
+function mockFetchProfile(){
+    return new Promise((resolve,reject)=>{
+        setTimeout(()=>{
+            resolve({
+                userId: id, 
+                username: "Runner_" + id, 
+                status: "Active"
+            },1000)
+        })
+    })
+}
+
+async function hydrateProfiles(params) {
+    try {
+        const userIds = [1,2,3,4,5]
+
+        const profilePromises = userIds.map((id)=>{
+            return mockFetchProfile(id)
+             console.log(profilePromises)
+        })
+
+        const completedProfiles = await Promise.all(profilePromises);
+       
+    } catch (error) {
+        console.log("Hydration failed:", error);
+    }
+}
+hydrateProfiles()

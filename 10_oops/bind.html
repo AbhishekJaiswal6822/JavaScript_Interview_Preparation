@@ -1,3 +1,10 @@
+<!-- "bind() is a built-in method in JavaScript used for deferred or later execution. 
+ For example, when an event listener callback needs to access properties from a class constructor 
+ when a button is clicked in the future, we use bind().
+
+What bind() fundamentally does is create a brand-new copy of the function with its internal this
+ keyword permanently locked to the object context we pass into its first parameter. It also allows us to pass additional properties as arguments right after the context, baking those props into the function so they are preserved intact when the browser triggers the event asynchronously later." -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,11 +28,18 @@
 
         }
         handleClicked(){
-            console.log("Button Clicked!!")
-            console.log(this.server)
+            console.log("Button Clicked!!!!!", typeof this)
+            console.log(this)
+            console.log("Type of " , typeof this)
         }
     }
 
-    const app = new React()
+const app = new React();
+
+// Let's intercept what bind returns before giving it to a button
+const whatBindReturned = app.handleClicked.bind(app);
+
+console.log(typeof whatBindReturned); 
+// 🖥️ Outputs: "function"
 </script>
 </html>

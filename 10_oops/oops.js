@@ -4,9 +4,9 @@ const user = {
     signedIn: true,
     
     getUserDetails: function(){
-        // console.log("Got user deatils from database")
-        // console.log(`Username: ${this.username}`)
-        // console.log(this)
+        console.log("Got user deatils from database")
+        console.log(`Username: ${this.username}`)
+        console.log(this)
     }
 }
 

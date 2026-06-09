@@ -5,7 +5,7 @@ Data Types ==> Primitives Non-Primitive (Refrence Type) difference call by value
 how data are getting stored in the memory and how it is getting accessed on the basics of that data are categorised into two part Primitives Non-Primitive
 
 Primitives Call by value 
-Primitives types are called by value when we copy that data we didnt gets refrence from the memory instaed we get copry so whatever we do changes it gets changed their and not in the actual original data
+Primitives types are called by value when we copy that data we didnt gets refrence from the memory instaed we get copy so whatever we do changes it gets changed their and not in the actual original data
 
 
 In primitive data types, the original value in memory cannot be changed by a copy.

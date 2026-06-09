@@ -3,11 +3,11 @@
 let name = "abhishek"
 let age = 24
 
-// console.log(name +  + age)
+console.log(name +  + age)
 // console.log(`my name is ${name} and my age is ${age}`)
 
-// console.log(name.__proto__.toUpperCase());
-// console.log(name.toUpperCase());
+console.log(name.__proto__.toUpperCase());
+console.log(name.toUpperCase());
 // console.log(name.length)
 
 const gameName = new String ("valorant")
@@ -38,10 +38,10 @@ const url = "https://google%20.com"
 const str = "The quick brown fox jumps over the lazy-dog.";
 
 const words = str.split(" ")
-console.log(words[3])
+console.log(words[4])
 
 const char = str.split("")
 console.log(char[8])
 
-const strCopy = str.split(" ")
+const strCopy = str.split("")
 console.log(strCopy)

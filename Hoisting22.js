@@ -1,4 +1,7 @@
 /*
+
+"Hoisting is JavaScript's mechanism of allocating memory slots for variable and function declarations during the initial compilation phase before code execution begins. While standard function declarations hoist their entire body into memory immediately, variables declared with var are hoisted only as undefined. Modern let and const declarations are also hoisted but remain locked within the Temporal Dead Zone until their initialization line is explicitly processed, causing a runtime exception if accessed prematurely."
+
 When the Global Execution Context is created, it happens in two phases:
 
 Memory Creation Phase: JavaScript scans your code for variables and functions.
@@ -51,7 +54,7 @@ Memory creation phase and execution phase
 
 
 
-in memory creation phase js scan the file and reserve spaace for the clarration for fn declaration it reserve as well as store the values for vardeclaration it reserves memory and store undefined for let and const it reserves memeory and doest store value it leaves it uninitialized tdz
+in memory creation phase js scan the file and reserve spaace for the clarration for fn declaration it reserve as well as store the values for var declaration it reserves memory and store undefined for let and const it reserves memeory and doest store value it leaves it uninitialized tdz
 
 
 
